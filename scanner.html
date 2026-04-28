@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">QR Code Scanner</h2>
+<div class="d-flex justify-content-center">
+  <div style="position: relative;">
+    <video id="preview" style="
+        width: 400px;
+        height: 300px;
+        background: #fff;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        border-radius: 12px;
+    " autoplay muted playsinline></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  const video = document.getElementById('preview');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let scanned = false;
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      video.srcObject = stream;
+      video.play();
+      requestAnimationFrame(tick);
+    })
+    .catch(err => {
+      alert("Camera error: " + err);
+    });
+  function tick() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code && !scanned) {
+        scanned = true;
+        video.srcObject.getTracks().forEach(t => t.stop());
+        fetch("/validate_qr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ qr_data: code.data })
+        })
+        .then(res => res.text())
+        .then(msg => {
+          alert(msg);
+          window.location.href = "/admin";
+        })
+        .catch(err => console.error(err));
+      }
+    }
+    if (!scanned) requestAnimationFrame(tick);
+  }
+</script>
+{% endblock %}

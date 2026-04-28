@@ -1,0 +1,149 @@
+<!-- vscode-disable css -->
+{% extends "base.html" %}
+{% block content %}
+<style>
+    body {
+        background: radial-gradient(circle at top left, #c3dafe, #e9d8fd, #fef1ff);
+        overflow: hidden;
+    }
+    /* FLOATING BLURRED BUBBLES */
+    .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        opacity: 0.6;
+        animation: floatBlob 12s infinite ease-in-out;
+        z-index: -2;
+    }
+    .blob1 {
+        width: 350px;
+        height: 350px;
+        background: #a5b4fc;
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+    .blob2 {
+        width: 400px;
+        height: 400px;
+        background: #fbcfe8;
+        bottom: 5%;
+        right: 10%;
+        animation-delay: 2s;
+    }
+    .blob3 {
+        width: 300px;
+        height: 300px;
+        background: #bae6fd;
+        top: 40%;
+        right: 35%;
+        animation-delay: 4s;
+    }
+    @keyframes floatBlob {
+        0% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-40px) scale(1.1); }
+        100% { transform: translateY(0px) scale(1); }
+    }
+    /* SPARKLES */
+    .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: sparkleAnim 3s infinite ease-in-out;
+        z-index: -1;
+    }
+    @keyframes sparkleAnim {
+        0% { transform: scale(1) translateY(0); opacity: 1; }
+        50% { transform: scale(1.7) translateY(-10px); opacity: 0.4; }
+        100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    /* MAIN CARD */
+    .dream-card {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 50px;
+        border-radius: 25px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        max-width: 650px;
+        margin: auto;
+        margin-top: 140px;
+        animation: fadeIn 1.4s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .dream-btn {
+        background: linear-gradient(135deg, #6a5af9, #4c6ef5);
+        border: none;
+        padding: 15px 30px;
+        border-radius: 12px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: 0.3s;
+        box-shadow: 0 5px 20px rgba(74, 58, 255, 0.3);
+    }
+    .dream-btn:hover {
+        transform: translateY(-4px) scale(1.05);
+        box-shadow: 0 8px 25px rgba(74, 58, 255, 0.4);
+        background: linear-gradient(135deg, #7b6dfe, #5568f6);
+    }
+    .main-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #4c6ef5, #9f7aea);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+<!-- FLOATING BLOBS -->
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<!-- RANDOM SPARKLES -->
+<!-- RANDOM SPARKLES -->
+{% for i in range(20) %}
+{% set top = i * 5 %}
+{% set left = i * 7 %}
+{% set delay = i * 0.2 %}
+<div class="sparkle"
+     data-top="{{ top }}"
+     data-left="{{ left }}"
+     data-delay="{{ delay }}">
+</div>
+{% endfor %}
+<!-- MAIN DREAMY CARD -->
+<div class="dream-card text-center">
+    <h1 class="main-title">Welcome to EventVerse ✨</h1>
+    <p class="lead mt-3">
+        A magical gateway where events come alive with QR-powered ticketing and seamless check-ins.
+    </p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <!-- Student -->
+        <a href="/events">
+            <button class="dream-btn" style="background: linear-gradient(135deg, #4f46e5, #6366f1);">
+                Student Portal
+            </button>
+        </a>
+        <!-- Admin -->
+        <a href="/admin">
+            <button class="dream-btn" style="background: linear-gradient(135deg, #10b981, #34d399);">
+                Admin / Organizer Portal
+            </button>
+        </a>
+    </div>
+</div>
+<script>
+document.querySelectorAll('.sparkle').forEach(el => {
+    el.style.top = el.dataset.top + 'vh';
+    el.style.left = el.dataset.left + 'vw';
+    el.style.animationDelay = el.dataset.delay + 's';
+});
+</script>
+{% endblock %}

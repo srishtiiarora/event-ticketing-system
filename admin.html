@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Admin / Organizer Dashboard</h2>
+
+<div class="text-center mb-4">
+    <a href="/scan" class="btn btn-primary btn-lg">Open QR Scanner</a>
+</div>
+
+<div class="text-center mb-4">
+    <a href="/reset_registrations" class="btn btn-danger me-3">Reset All Tickets</a>
+</div>
+
+<!-- REGISTRATION TABLE -->
+<div class="card p-4 shadow mb-5">
+    <h4>All Registrations</h4>
+    <table class="table table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Reg ID</th>
+                <th>Student ID</th>
+                <th>Event</th>
+                <th>QR File</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in registrations %}
+            <tr>
+                <td>{{ r[0] }}</td>
+                <td>{{ r[1] }}</td>
+                <td>{{ r[2] }}</td>
+                <td>{{ r[3] }}</td>
+                <td>{{ r[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- CHECK-IN TABLE -->
+<div class="card p-4 shadow mb-5">
+    <h4>Check-ins</h4>
+    <table class="table table-striped mt-3">
+        <thead class="table-success">
+            <tr>
+                <th>Check-in ID</th>
+                <th>Reg ID</th>
+                <th>Event</th>
+                <th>Check-in Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in checkins %}
+            <tr>
+                <td>{{ c[0] }}</td>
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+                <td>{{ c[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

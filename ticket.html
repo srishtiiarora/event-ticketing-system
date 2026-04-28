@@ -1,0 +1,91 @@
+<!-- TICKET TEMPLATE v2 — UPDATED -->
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #dbeafe, #f3e8ff, #ffe4fa);
+        min-height: 100vh;
+    }
+
+    .ticket-card {
+        max-width: 550px;
+        margin: auto;
+        margin-top: 70px;
+        padding: 40px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        animation: fadeIn 1.2s ease;
+    }
+
+    .ticket-title {
+        font-size: 2.3rem;
+        font-weight: bold;
+        background: linear-gradient(90deg, #4f46e5, #9333ea);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 25px;
+    }
+
+    .ticket-info {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .qr-box img {
+        width: 260px;
+        height: 260px;
+        border-radius: 12px;
+        padding: 12px;
+        background: white;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.18);
+    }
+
+    .back-btn {
+        margin-top: 25px;
+        display: inline-block;
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        background: linear-gradient(135deg, #6366f1, #7c3aed);
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0px 6px 18px rgba(99,102,241,0.35);
+        transition: 0.3s;
+    }
+
+    .back-btn:hover {
+        transform: translateY(-3px);
+        background: linear-gradient(135deg, #4f46e5, #6d28d9);
+        box-shadow: 0px 8px 25px rgba(99,102,241,0.45);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+
+<div class="ticket-card">
+
+    <div class="ticket-title">Your Event Ticket</div>
+
+    <div class="ticket-info">✔ <strong>Event ID:</strong> {{ event_id }}</div>
+    <div class="ticket-info">✔ <strong>Registration ID:</strong> {{ reg_id }}</div>
+
+    <div class="qr-box">
+        <img src="{{ url_for('static', filename=qr_filename) }}" alt="QR Code" class="ticket-qr">
+    </div>
+
+    <a href="/events" class="back-btn">Back to Events</a>
+</div>
+
+{% endblock %}
